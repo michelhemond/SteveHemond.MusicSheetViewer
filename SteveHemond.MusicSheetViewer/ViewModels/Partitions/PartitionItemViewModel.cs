@@ -3,6 +3,7 @@ using SteveHemond.MusicSheetViewer.Data;
 using System.Windows.Media.Imaging;
 using SteveHemond.MusicSheetViewer.Helpers;
 using Prism.Commands;
+using SteveHemond.MusicSheetViewer.ViewModels.Playlists;
 
 namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
 {
@@ -17,6 +18,13 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
         {
             get => partition;
             set => SetProperty(ref partition, value);
+        }
+
+        private PlaylistItemViewModel playlist;
+        public PlaylistItemViewModel Playlist
+        {
+            get => playlist;
+            set => SetProperty(ref playlist, value);
         }
 
         private string displayName;
@@ -54,12 +62,13 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
             }
         }
 
-        public PartitionItemViewModel(Partition partition, DelegateCommand addPartitionsToPlaylistCommand, DelegateCommand removePartitionsFromPlaylistCommand)
+        public PartitionItemViewModel(Partition partition, PlaylistItemViewModel playlist, DelegateCommand addPartitionsToPlaylistCommand, DelegateCommand removePartitionsFromPlaylistCommand)
         {
             this.addPartitionsToPlaylistCommand = addPartitionsToPlaylistCommand;
             this.removePartitionsFromPlaylistCommand = removePartitionsFromPlaylistCommand;
 
-            this.partition = partition;
+            Partition = partition;
+            Playlist = playlist;
             DisplayName = partition.FileName;
             Thumbnail = partition.Thumbnail.FromByteArray();
             PageCount = partition.PageCount;

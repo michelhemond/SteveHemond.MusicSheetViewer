@@ -71,9 +71,13 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
         {
             try
             {
-                var selectedPartitions = Playlists.SelectMany(pl => pl.Partitions).Where(p => p.IsSelected);
-                //partitionService.RemovePartitions()
-                    
+                var selectedPartitionItems = Playlists.SelectMany(pl => pl.Partitions).Where(p => p.IsSelected).ToList();
+                var selectedPartitions = selectedPartitionItems.Select(p => p.Partition).ToList();
+                var selectedPlaylistItem = selectedPartitionItems.FirstOrDefault().Playlist;
+                var selectedPlaylist = selectedPlaylistItem.Playlist;
+                playlistService.RemovePartitionsFromPlaylist(selectedPartitions, selectedPlaylist);
+                selectedPartitionItems.ForEach(p => selectedPlaylistItem.Partitions.Remove(p));
+                commandBarViewModel.RemovePartitionsFromPlaylistCommand.RaiseCanExecuteChanged();
             }
             catch (Exception ex)
             {

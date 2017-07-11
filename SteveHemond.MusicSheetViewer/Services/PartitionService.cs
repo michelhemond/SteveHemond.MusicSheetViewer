@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.IO;
+using SteveHemond.MusicSheetViewer.ViewModels.Partitions;
 
 namespace SteveHemond.MusicSheetViewer.Services
 {

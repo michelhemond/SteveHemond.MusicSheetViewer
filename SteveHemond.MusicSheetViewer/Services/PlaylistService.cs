@@ -45,6 +45,22 @@ namespace SteveHemond.MusicSheetViewer.Services
             }
         }
 
+        public void RemovePartitionsFromPlaylist(List<Partition> partitions, Playlist playlist)
+        {
+            using (var dbContext = new MusicSheetViewerContext())
+            {
+                dbContext.Playlists.Attach(playlist);
+                partitions.ForEach(p => dbContext.Partitions.Attach(p));
+
+                foreach (var partition in partitions)
+                {
+                    playlist.Partitions.Remove(partition);
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public void DeletePlaylist(Playlist playlist)
         {
             using (var dbContext = new MusicSheetViewerContext())

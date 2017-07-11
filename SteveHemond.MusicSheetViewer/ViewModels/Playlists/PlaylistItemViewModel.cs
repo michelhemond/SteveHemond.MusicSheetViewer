@@ -98,7 +98,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
             Partitions = new ObservableCollection<PartitionItemViewModel>();
             Partitions.CollectionChanged += Partitions_CollectionChanged;
             Partitions.AddRange(Playlist.Partitions
-                .Select(p => new PartitionItemViewModel(p, addPartitionsToPlaylistCommand, removePartitionsFromPlaylistCommand)).ToList());
+                .Select(p => new PartitionItemViewModel(p, this, addPartitionsToPlaylistCommand, removePartitionsFromPlaylistCommand)).ToList());
             PartitionCount = playlist.Partitions.Count;
         }
 

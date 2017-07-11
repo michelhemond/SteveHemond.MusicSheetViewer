@@ -98,7 +98,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
         {
             Partitions.Clear();
             var partitions = await partitionService.GetPartitions();
-            Partitions.AddRange(partitions.Select(p => new PartitionItemViewModel(p, commandBarViewModel.AddToPlaylistCommand, null)));
+            Partitions.AddRange(partitions.Select(p => new PartitionItemViewModel(p, null, commandBarViewModel.AddToPlaylistCommand, null)));
         }
     }
 }
