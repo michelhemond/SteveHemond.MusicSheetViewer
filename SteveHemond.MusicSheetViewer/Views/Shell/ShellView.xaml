@@ -1,0 +1,113 @@
+﻿<mahapps:MetroWindow x:Class="SteveHemond.MusicSheetViewer.Views.Shell.ShellView"
+        xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:prism="http://prismlibrary.com/"
+        mc:Ignorable="d"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        BorderBrush="DarkGray" BorderThickness="1"
+        WindowStartupLocation="CenterScreen" 
+        ShowTitleBar="False" 
+        ShowCloseButton="False" 
+        ShowMaxRestoreButton="False" 
+        ShowMinButton="False"
+        WindowState="{Binding WindowState, Mode=TwoWay}">
+    <mahapps:MetroWindow.Resources>
+        <Storyboard x:Key="CollapseNavBar" x:Name="CollapseNavBar">
+            <DoubleAnimation Storyboard.TargetName="NavGrid" Storyboard.TargetProperty="Width" To="90" Duration="00:00:00.2" />
+        </Storyboard>
+        <Storyboard x:Key="ExpandNavBar" x:Name="ExpandNavBar">
+            <DoubleAnimation Storyboard.TargetName="NavGrid" Storyboard.TargetProperty="Width" From="90" To="300" Duration="00:00:00.2" />
+        </Storyboard>
+    </mahapps:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="#333" BorderBrush="DarkGray" BorderThickness="1">
+            <DockPanel Margin="5">
+                <TextBlock DockPanel.Dock="Left" Text="Visualisateur de partitions musicales" FontSize="34" VerticalAlignment="Center" Foreground="White" Margin="5"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="MinimizeButton" Width="50" Height="50" Margin="5" Click="MinimizeButton_Click">
+                        <iconPacks:PackIconMaterial Kind="WindowMinimize" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button x:Name="MaximizeRestoreButton" Width="50" Height="50" Margin="5" Click="MaximizeRestoreButton_Click">
+                        <iconPacks:PackIconMaterial x:Name="MaximizeRestoreButtonImage" Kind="WindowMaximize" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button x:Name="CloseButton" Width="50" Height="50" Margin="5" Click="CloseButton_Click">
+                        <iconPacks:PackIconMaterial Kind="WindowClose" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" BorderBrush="DarkGray" BorderThickness="0,0,1,0" Background="#eee">
+                <Grid x:Name="NavGrid" Width="90">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ToggleButton BorderThickness="0" x:Name="MenuButton" Grid.Row="0" Checked="MenuButton_Checked"  Unchecked="MenuButton_Unchecked" HorizontalContentAlignment="Left">
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                            <Border Name="Border" BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" >
+                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentColorBrush3}" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                                <Trigger Property="IsChecked" Value="true">
+                                                    <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="Foreground" Value="#ADADAD"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ToggleButton.Style>
+                        <iconPacks:PackIconMaterial Kind="Menu" VerticalAlignment="Center" HorizontalAlignment="Center" Width="50" Height="50" Margin="20"/>
+                    </ToggleButton>
+                    <ContentControl x:Name="NavBar" Grid.Row="1" prism:RegionManager.RegionName="NavBarRegion" Width="300"/>
+                </Grid>
+            </Border>
+            <GridSplitter Grid.Column="1" />
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ContentControl Grid.Row="0" prism:RegionManager.RegionName="ContentHeaderRegion" Margin="0,10"/>
+                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion"/>
+            </Grid>
+            <ContentControl Grid.Column="2" prism:RegionManager.RegionName="CommandBarRegion"/>
+        </Grid>
+    </Grid>
+</mahapps:MetroWindow>
