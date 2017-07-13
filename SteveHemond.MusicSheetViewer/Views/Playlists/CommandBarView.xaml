@@ -11,7 +11,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Border BorderThickness="1" BorderBrush="DarkGray" Background="#eee" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Margin="10,20" Width="60" Height="60" Command="{Binding AddPartitionsIntoPlaylistCommand}" >
+            <Button Margin="10,20" Width="60" Height="60" Command="{Binding AddPartitionsToPlaylistCommand}" >
                 <iconPacks:PackIconMaterial Kind="PlaylistPlus" VerticalAlignment="Center" HorizontalAlignment="Center" Width="50" Height="50"/>
             </Button>
             <Button Margin="10,20" Width="60" Height="60" Command="{Binding RemovePartitionsFromPlaylistCommand}">

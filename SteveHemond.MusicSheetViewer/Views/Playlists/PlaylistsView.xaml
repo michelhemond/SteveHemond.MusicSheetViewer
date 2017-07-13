@@ -6,9 +6,21 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:infra="clr-namespace:SteveHemond.MusicSheetViewer.Infrastructure"
+             xmlns:local="clr-namespace:SteveHemond.MusicSheetViewer.Views.Playlists"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding AddPartitionsToPlaylistInteractionRequest, Mode=OneWay}">
+            <infra:MetroPopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
+                <infra:MetroPopupWindowAction.WindowContent>
+                    <local:AddPartitionsToPlaylistView/>
+                </infra:MetroPopupWindowAction.WindowContent>
+            </infra:MetroPopupWindowAction>
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    
     <UserControl.Resources>
         <Style x:Key="AlternateBackground" TargetType="ListBoxItem">
             <Style.Triggers>
@@ -21,7 +33,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <ListBox Grid.Column="1" ItemsSource="{Binding Playlists}" SelectedItem="{Binding SelectedPlaylist}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10">
+    <ListBox Grid.Column="1" ItemsSource="{Binding PlaylistItems}" SelectedItem="{Binding SelectedPlaylistItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="SelectionChanged">
                 <i:InvokeCommandAction Command="{Binding PlaylistSelectedCommand}"/>

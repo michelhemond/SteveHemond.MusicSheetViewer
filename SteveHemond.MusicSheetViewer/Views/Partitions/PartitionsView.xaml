@@ -21,7 +21,7 @@
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
 
-    <ListBox Grid.Column="0" ItemsSource="{Binding Partitions}" SelectedItem="{Binding SelectedPartition}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10">
+    <ListBox Grid.Column="0" ItemsSource="{Binding PartitionItems}" SelectedItem="{Binding SelectedPartitionItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />

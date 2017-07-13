@@ -84,9 +84,9 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
 
         public PlaylistItemViewModel(
             Playlist playlist, 
-            DelegateCommand addPartitionsToPlaylistCommand, 
-            DelegateCommand removePartitionsFromPlaylistCommand, 
-            DelegateCommand deletePlaylistCommand)
+            DelegateCommand addPartitionsToPlaylistCommand = null, 
+            DelegateCommand removePartitionsFromPlaylistCommand = null, 
+            DelegateCommand deletePlaylistCommand = null)
         {
             this.addPartitionsToPlaylistCommand = addPartitionsToPlaylistCommand;
             this.removePartitionsFromPlaylistCommand = removePartitionsFromPlaylistCommand;
@@ -97,9 +97,13 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
             Description = playlist.Description;
             Partitions = new ObservableCollection<PartitionItemViewModel>();
             Partitions.CollectionChanged += Partitions_CollectionChanged;
-            Partitions.AddRange(Playlist.Partitions
-                .Select(p => new PartitionItemViewModel(p, this, addPartitionsToPlaylistCommand, removePartitionsFromPlaylistCommand)).ToList());
-            PartitionCount = playlist.Partitions.Count;
+
+            if (playlist.Partitions != null)
+            {
+                Partitions.AddRange(Playlist.Partitions
+                    .Select(p => new PartitionItemViewModel(p, this, addPartitionsToPlaylistCommand, removePartitionsFromPlaylistCommand)).ToList());
+                PartitionCount = playlist.Partitions.Count;
+            }
         }
 
         private void Partitions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

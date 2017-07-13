@@ -24,23 +24,23 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
 
         public InteractionRequest<AddPartitionsToPlaylistNotification> AddPartitionsToPlaylistInteractionRequest { get; set; }
 
-        private ObservableCollection<PartitionItemViewModel> partitions;
-        public ObservableCollection<PartitionItemViewModel> Partitions
+        private ObservableCollection<PartitionItemViewModel> partitionItems;
+        public ObservableCollection<PartitionItemViewModel> PartitionItems
         {
-            get => partitions;
-            set => SetProperty(ref partitions, value);
+            get => partitionItems;
+            set => SetProperty(ref partitionItems, value);
         }
 
-        private PartitionItemViewModel selectedPartition;
-        public PartitionItemViewModel SelectedPartition
+        private PartitionItemViewModel selectedPartitionItem;
+        public PartitionItemViewModel SelectedPartitionItem
         {
-            get => selectedPartition;
-            set => SetProperty(ref selectedPartition, value);
+            get => selectedPartitionItem;
+            set => SetProperty(ref selectedPartitionItem, value);
         }
 
         public bool IsSelectionActive
         {
-            get => Partitions.Any(p => p.IsSelected);
+            get => PartitionItems.Any(p => p.IsSelected);
         }
 
         public PartitionsViewModel(CommandBarViewModel commandBarViewModel, IRegionManager regionManager, PartitionService partitionService, PlaylistService playlistService)
@@ -51,7 +51,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
             this.playlistService = playlistService;
 
             AddPartitionsToPlaylistInteractionRequest = new InteractionRequest<AddPartitionsToPlaylistNotification>();
-            Partitions = new ObservableCollection<PartitionItemViewModel>();
+            PartitionItems = new ObservableCollection<PartitionItemViewModel>();
             commandBarViewModel.AddToPlaylistCommand = new DelegateCommand(AddToPlaylist, CanAddToPlaylist);
         }
 
@@ -66,21 +66,23 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
             {
                 Title = "Ajouter des partitions à une liste de lecture",
                 Content = string.Empty,
-                Partitions = Partitions.Where(p => p.IsSelected).Select(p => p.Partition).ToList()
+                Partitions = PartitionItems.Where(p => p.IsSelected).ToList()
             };
 
             AddPartitionsToPlaylistInteractionRequest.Raise(addPartitionsToPlaylistNotification, returned =>
             {
                 if (returned != null && returned.Confirmed)
                 {
-                    var playlist = addPartitionsToPlaylistNotification.Playlist;
+                    var playlistItem = addPartitionsToPlaylistNotification.Playlist;
 
-                    if (playlist.Partitions == null)
+                    if (playlistItem.Playlist.Partitions == null)
                     {
-                        playlist.Partitions = new List<Partition>();
+                        playlistItem.Playlist.Partitions = new List<Partition>();
                     }
 
-                    playlistService.AddPartitionsToPlaylist(playlist, addPartitionsToPlaylistNotification.Partitions);
+                    playlistService.AddPartitionsToPlaylist(
+                        playlistItem.Playlist, 
+                        addPartitionsToPlaylistNotification.Partitions.Select(p => p.Partition).ToList());
                 }
             });
         }
@@ -96,9 +98,9 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
 
         public async Task GetPartitions()
         {
-            Partitions.Clear();
+            PartitionItems.Clear();
             var partitions = await partitionService.GetPartitions();
-            Partitions.AddRange(partitions.Select(p => new PartitionItemViewModel(p, null, commandBarViewModel.AddToPlaylistCommand, null)));
+            PartitionItems.AddRange(partitions.Select(p => new PartitionItemViewModel(p, null, commandBarViewModel.AddToPlaylistCommand, null)));
         }
     }
 }

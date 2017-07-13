@@ -32,7 +32,7 @@ namespace SteveHemond.MusicSheetViewer.Services
 
                 foreach(var partition in partitions)
                 {
-                    if (playlist.Partitions.Any(p => p.PartitionId == partition.PartitionId))
+                    if (playlist.Partitions == null && playlist.Partitions.Any(p => p.PartitionId == partition.PartitionId))
                     {
                         continue;
                     }

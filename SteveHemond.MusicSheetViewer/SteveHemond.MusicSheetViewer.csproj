@@ -137,7 +137,7 @@
     <Compile Include="ViewModels\Partitions\PartitionItemViewModel.cs" />
     <Compile Include="ViewModels\Partitions\PartitionsViewModel.cs" />
     <Compile Include="ViewModels\Partitions\ScrapingViewModel.cs" />
-    <Compile Include="ViewModels\Playlists\AddPartitionsIntoPlaylistViewModel.cs" />
+    <Compile Include="ViewModels\Playlists\AddPartitionsToPlaylistViewModel.cs" />
     <Compile Include="ViewModels\Playlists\CommandBarViewModel.cs" />
     <Compile Include="ViewModels\Playlists\PlaylistItemViewModel.cs" />
     <Compile Include="ViewModels\Playlists\PlaylistsViewModel.cs" />
@@ -161,8 +161,8 @@
     <Compile Include="Views\Partitions\ScrapingView.xaml.cs">
       <DependentUpon>ScrapingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Playlists\AddPartitionsIntoPlaylistView.xaml.cs">
-      <DependentUpon>AddPartitionsIntoPlaylistView.xaml</DependentUpon>
+    <Compile Include="Views\Playlists\AddPartitionsToPlaylistView.xaml.cs">
+      <DependentUpon>AddPartitionsToPlaylistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Playlists\CommandBarView.xaml.cs">
       <DependentUpon>CommandBarView.xaml</DependentUpon>
@@ -242,7 +242,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Playlists\AddPartitionsIntoPlaylistView.xaml">
+    <Page Include="Views\Playlists\AddPartitionsToPlaylistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

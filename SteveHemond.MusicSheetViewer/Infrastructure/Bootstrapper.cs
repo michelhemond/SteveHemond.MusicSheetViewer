@@ -41,8 +41,8 @@ namespace SteveHemond.MusicSheetViewer.Infrastructure
             Container.RegisterType<PartitionsViewModel>();
             Container.RegisterType<object, Views.Partitions.CommandBarView>("Partitions.CommandBarView");
             Container.RegisterType<object, PartitionsView>("PartitionsView");
-            Container.RegisterType<AddPartitionsToPlaylistViewModel>();
-            Container.RegisterType<object, AddPartitionsToPlaylistView>("AddPartitionsToPlaylistView");
+            Container.RegisterType<ViewModels.Partitions.AddPartitionsToPlaylistViewModel>();
+            Container.RegisterType<object, Views.Partitions.AddPartitionsToPlaylistView>("Partitions.AddPartitionsToPlaylistView");
 
             // Playlists
             var playlistsCommandBarViewModel = new ViewModels.Playlists.CommandBarViewModel();
@@ -50,8 +50,8 @@ namespace SteveHemond.MusicSheetViewer.Infrastructure
             Container.RegisterType<PlaylistsViewModel>();
             Container.RegisterType<object, Views.Playlists.CommandBarView>("Playlists.CommandBarView");
             Container.RegisterType<object, PlaylistsView>("PlaylistsView");
-            Container.RegisterType<AddPartitionsIntoPlaylistViewModel>();
-            Container.RegisterType<object, AddPartitionsIntoPlaylistView>("AddPartitionsIntoPlaylistView");
+            Container.RegisterType<ViewModels.Playlists.AddPartitionsToPlaylistViewModel>();
+            Container.RegisterType<object, Views.Playlists.AddPartitionsToPlaylistView>("Playlist.AddPartitionsToPlaylistView");
 
             // Settings
             Container.RegisterType<SettingsViewModel>();

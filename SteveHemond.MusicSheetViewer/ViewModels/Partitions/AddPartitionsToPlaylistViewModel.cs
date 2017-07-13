@@ -4,8 +4,10 @@ using Prism.Mvvm;
 using SteveHemond.MusicSheetViewer.Data;
 using SteveHemond.MusicSheetViewer.Notifications;
 using SteveHemond.MusicSheetViewer.Services;
+using SteveHemond.MusicSheetViewer.ViewModels.Playlists;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
 {
@@ -15,15 +17,15 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
 
         private AddPartitionsToPlaylistNotification addPartitionsToPlaylistNotification;
 
-        private ObservableCollection<Playlist> playlists;
-        public ObservableCollection<Playlist> Playlists
+        private ObservableCollection<PlaylistItemViewModel> playlists;
+        public ObservableCollection<PlaylistItemViewModel> Playlists
         {
             get => playlists;
             set => SetProperty(ref playlists, value);
         }
 
-        private Playlist selectedPlaylist;
-        public Playlist SelectedPlaylist
+        private PlaylistItemViewModel selectedPlaylist;
+        public PlaylistItemViewModel SelectedPlaylist
         {
             get => selectedPlaylist;
             set
@@ -70,7 +72,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
         public AddPartitionsToPlaylistViewModel(PlaylistService playlistService)
         {
             this.playlistService = playlistService;
-            Playlists = new ObservableCollection<Playlist>();
+            Playlists = new ObservableCollection<PlaylistItemViewModel>();
             CancelCommand = new DelegateCommand(CancelInteraction);
             ConfirmCommand = new DelegateCommand(ConfirmInteraction, () => SelectedPlaylist != null);
             AddPlaylistCommand = new DelegateCommand(AddPlaylist, () => !string.IsNullOrEmpty(PlaylistName));
@@ -82,9 +84,9 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
             {
                 var playlist = new Playlist { DisplayName = PlaylistName };
                 playlistService.AddPlaylist(playlist);
-                Playlists.Add(playlist);
+                Playlists.Add(new PlaylistItemViewModel(playlist));
                 PlaylistName = string.Empty;
-                SelectedPlaylist = playlist;
+                SelectedPlaylist = new PlaylistItemViewModel(playlist);
             }
             catch (Exception ex)
             {
@@ -95,7 +97,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
         private void GetPlaylists()
         {
             Playlists.Clear();
-            Playlists.AddRange(playlistService.GetPlaylists());
+            Playlists.AddRange(playlistService.GetPlaylists().Select(pl => new PlaylistItemViewModel(pl)));
         }
 
         private void ConfirmInteraction()

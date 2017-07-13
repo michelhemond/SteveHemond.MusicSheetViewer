@@ -6,7 +6,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
 {
     public class CommandBarViewModel : BindableBase, INavigationAware
     {
-        public DelegateCommand AddPartitionsIntoPlaylistCommand { get; set; }
+        public DelegateCommand AddPartitionsToPlaylistCommand { get; set; }
 
         public DelegateCommand RemovePartitionsFromPlaylistCommand { get; set; }
 
