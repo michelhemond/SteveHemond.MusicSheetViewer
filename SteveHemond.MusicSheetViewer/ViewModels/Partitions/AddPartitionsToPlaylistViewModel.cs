@@ -102,7 +102,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
 
         private void ConfirmInteraction()
         {
-            addPartitionsToPlaylistNotification.Playlist = SelectedPlaylist;
+            addPartitionsToPlaylistNotification.PlaylistItem = SelectedPlaylist;
             addPartitionsToPlaylistNotification.Confirmed = true;
             FinishInteraction();
         }

@@ -12,15 +12,17 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
 {
     public class AddPartitionsToPlaylistViewModel : BindableBase, IInteractionRequestAware
     {
-        private readonly PlaylistService playlistService;
+        private readonly PartitionService partitionService;
 
         private AddPartitionsToPlaylistNotification addPartitionsToPlaylistNotification;
 
-        private ObservableCollection<PartitionItemViewModel> partitions;
-        public ObservableCollection<PartitionItemViewModel> Partitions
+        private PlaylistItemViewModel playlistItem;
+
+        private ObservableCollection<PartitionItemViewModel> partitionItems;
+        public ObservableCollection<PartitionItemViewModel> PartitionItems
         {
-            get => partitions;
-            set => SetProperty(ref partitions, value);
+            get => partitionItems;
+            set => SetProperty(ref partitionItems, value);
         }
 
         public INotification Notification
@@ -32,6 +34,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
                 if (value is AddPartitionsToPlaylistNotification)
                 {
                     addPartitionsToPlaylistNotification = value as AddPartitionsToPlaylistNotification;
+                    playlistItem = addPartitionsToPlaylistNotification.PlaylistItem;
                     RaisePropertyChanged(nameof(Notification));
                 }
             }
@@ -43,17 +46,26 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
 
         public DelegateCommand ConfirmCommand { get; private set; }
 
-        public AddPartitionsToPlaylistViewModel(PlaylistService playlistService)
+        public AddPartitionsToPlaylistViewModel(PartitionService partitionService)
         {
-            this.playlistService = playlistService;
-            Partitions = new ObservableCollection<PartitionItemViewModel>();
+            this.partitionService = partitionService;
+            PartitionItems = new ObservableCollection<PartitionItemViewModel>();
             CancelCommand = new DelegateCommand(CancelInteraction);
-            ConfirmCommand = new DelegateCommand(ConfirmInteraction, () => Partitions.Any(p => p.IsSelected));
+            ConfirmCommand = new DelegateCommand(ConfirmInteraction, () => PartitionItems.Any(p => p.IsSelected));
+            GetPartitions();
+        }
+
+        public async void GetPartitions()
+        {
+            PartitionItems = new ObservableCollection<PartitionItemViewModel>(
+                (await partitionService.GetPartitions())
+                .Select(p => new PartitionItemViewModel(p, playlistItem, ConfirmCommand))
+                .ToList());
         }
 
         private void ConfirmInteraction()
         {
-            addPartitionsToPlaylistNotification.Partitions = Partitions.Where(p => p.IsSelected).ToList();
+            addPartitionsToPlaylistNotification.PartitionItems = PartitionItems.Where(p => p.IsSelected).ToList();
             addPartitionsToPlaylistNotification.Confirmed = true;
             FinishInteraction();
         }

@@ -8,7 +8,19 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Width="800" Height="1000">
+    <UserControl.Resources>
+        <Style x:Key="AlternateBackground" TargetType="ListBoxItem">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                    <Setter Property="Background" Value="#fff" />
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                    <Setter Property="Background" Value="#eee" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid Width="800" Height="800">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -23,13 +35,46 @@
             </DockPanel>
         </Border>
         <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Margin="30,10">
-            <ListBox ItemsSource="{Binding Playlists}" SelectedItem="{Binding SelectedPlaylist}">
+            <ListBox ItemsSource="{Binding PartitionItems}" SelectedItem="{Binding SelectedPartitionItem}" AlternationCount="2">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <DockPanel LastChildFill="True" Height="80">
-                            <iconPacks:PackIconMaterial DockPanel.Dock="Left" Kind="PlaylistPlay" VerticalAlignment="Center" HorizontalAlignment="Center" Width="50" Height="50"/>
-                            <TextBlock Text="{Binding DisplayName}" FontSize="24" VerticalAlignment="Center" Margin="20,0"/>
-                        </DockPanel>
+                        <Grid Height="50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <iconPacks:PackIconMaterial Grid.Column="0" Kind="FilePdf" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" Height="30" Margin="5"/>
+                            <TextBlock Grid.Column="1" Text="{Binding DisplayName}" FontSize="18" VerticalAlignment="Center" Margin="20,0"/>
+                            <ToggleButton Grid.Column="2" Style="{StaticResource DefaultToggleButtonStyle}" Height="30" Width="30" Margin="10" IsChecked="{Binding IsSelected, Mode=TwoWay}">
+                                <Image Width="18" Height="18">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="true">
+                                                    <Setter Property="Source" Value="/Images/Checkmark.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="false">
+                                                    <Setter Property="Source" Value="{x:Null}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </ToggleButton>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

@@ -70,13 +70,14 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
                 {
                     Title = "Ajouter des partitions à une liste de lecture",
                     Content = string.Empty,
+                    PlaylistItem = PlaylistItems.SingleOrDefault(pl => pl.IsSelected)
                 };
 
                 AddPartitionsToPlaylistInteractionRequest.Raise(addPartitionsIntoPlaylistNotification, returned =>
                 {
                     if (returned != null && returned.Confirmed)
                     {
-                        var playlist = addPartitionsIntoPlaylistNotification.Playlist;
+                        var playlist = addPartitionsIntoPlaylistNotification.PlaylistItem;
 
                         if (playlist.Partitions == null)
                         {
@@ -85,7 +86,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Playlists
 
                         playlistService.AddPartitionsToPlaylist(
                             playlist.Playlist, 
-                            addPartitionsIntoPlaylistNotification.Partitions.Select(p => p.Partition).ToList());
+                            addPartitionsIntoPlaylistNotification.PartitionItems.Select(p => p.Partition).ToList());
                     }
                 });
             }

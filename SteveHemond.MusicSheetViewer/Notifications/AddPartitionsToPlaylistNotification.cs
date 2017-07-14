@@ -8,8 +8,8 @@ namespace SteveHemond.MusicSheetViewer.Notifications
 {
     public class AddPartitionsToPlaylistNotification : Confirmation
     {
-        public List<PartitionItemViewModel> Partitions { get; set; }
+        public List<PartitionItemViewModel> PartitionItems { get; set; }
 
-        public PlaylistItemViewModel Playlist { get; set; }
+        public PlaylistItemViewModel PlaylistItem { get; set; }
     }
 }

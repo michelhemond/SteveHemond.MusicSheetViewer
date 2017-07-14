@@ -62,7 +62,7 @@ namespace SteveHemond.MusicSheetViewer.ViewModels.Partitions
             }
         }
 
-        public PartitionItemViewModel(Partition partition, PlaylistItemViewModel playlist, DelegateCommand addPartitionsToPlaylistCommand, DelegateCommand removePartitionsFromPlaylistCommand)
+        public PartitionItemViewModel(Partition partition, PlaylistItemViewModel playlist, DelegateCommand addPartitionsToPlaylistCommand = null, DelegateCommand removePartitionsFromPlaylistCommand = null)
         {
             this.addPartitionsToPlaylistCommand = addPartitionsToPlaylistCommand;
             this.removePartitionsFromPlaylistCommand = removePartitionsFromPlaylistCommand;
